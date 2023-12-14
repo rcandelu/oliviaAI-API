@@ -1,0 +1,22 @@
+{
+    "name": "health-monitoring-api",
+    "version": "1.0.0",
+    "description": "API server for health monitoring",
+    "main": "app.js",
+    "scripts": {
+      "start": "node app.js"
+    },
+    "keywords": [
+      "express",
+      "firebase",
+      "health",
+      "api"
+    ],
+    "author": "Your Name",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.17.1",
+      "firebase-admin": "^9.8.0"
+    }
+  }
+  
