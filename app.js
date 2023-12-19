@@ -52,7 +52,11 @@ app.get('/history_7d/:userId', async (req, res) => {
   
       const historyData = [];
       snapshot.forEach(doc => {
-        historyData.push(doc.data());
+        const historyRecord = doc.data();
+        // Convert the Firestore timestamp to a JavaScript Date object
+        historyRecord.date = new Date(historyRecord.date._seconds * 1000 + historyRecord.date._nanoseconds / 1000000);
+
+        historyData.push(historyRecord);
       });
   
       res.json(historyData);
@@ -79,7 +83,11 @@ app.get('/history_30d/:userId', async (req, res) => {
   
       const historyData = [];
       snapshot.forEach(doc => {
-        historyData.push(doc.data());
+        const historyRecord = doc.data();
+        // Convert the Firestore timestamp to a JavaScript Date object
+        historyRecord.date = new Date(historyRecord.date._seconds * 1000 + historyRecord.date._nanoseconds / 1000000);
+
+        historyData.push(historyRecord);
       });
   
       res.json(historyData);
@@ -102,6 +110,8 @@ app.get('/latest-reading/:userId', async (req, res) => {
       }
   
       const latestReading = snapshot.docs[0].data();
+      latestReading.date = new Date(latestReading.date._seconds * 1000 + latestReading.date._nanoseconds / 1000000);
+
       res.json(latestReading);
     } catch (error) {
       console.error('Error retrieving the latest reading:', error);
@@ -126,7 +136,11 @@ app.get('/sleep_7d/:userId', async (req, res) => {
   
       const sleepHistoryData = [];
       snapshot.forEach(doc => {
-        sleepHistoryData.push(doc.data());
+        const sleepRecord = doc.data();
+        // Convert the Firestore timestamp to a JavaScript Date object
+        sleepRecord.dateSleepTotal = new Date(sleepRecord.dateSleepTotal._seconds * 1000 + sleepRecord.dateSleepTotal._nanoseconds / 1000000);
+
+        sleepHistoryData.push(sleepRecord);
       });
   
       res.json(sleepHistoryData);
@@ -153,9 +167,13 @@ app.get('/sleep_30d/:userId', async (req, res) => {
   
       const sleepHistoryData = [];
       snapshot.forEach(doc => {
-        sleepHistoryData.push(doc.data());
+        const sleepRecord = doc.data();
+        // Convert the Firestore timestamp to a JavaScript Date object
+        sleepRecord.dateSleepTotal = new Date(sleepRecord.dateSleepTotal._seconds * 1000 + sleepRecord.dateSleepTotal._nanoseconds / 1000000);
+
+        sleepHistoryData.push(sleepRecord);
       });
-  
+
       res.json(sleepHistoryData);
     } catch (error) {
       console.error('Error retrieving sleep history:', error);
@@ -176,6 +194,8 @@ app.get('/latest-sleep-reading/:userId', async (req, res) => {
       }
   
       const latestSleepReading = snapshot.docs[0].data();
+      latestSleepReading.dateSleepTotal = new Date(latestSleepReading.dateSleepTotal._seconds * 1000 + latestSleepReading.dateSleepTotal._nanoseconds / 1000000);
+
       res.json(latestSleepReading);
     } catch (error) {
       console.error('Error retrieving the latest sleep reading:', error);
@@ -200,7 +220,19 @@ app.get('/sport_7d/:userId', async (req, res) => {
   
       const sportHistoryData = [];
       snapshot.forEach(doc => {
-        sportHistoryData.push(doc.data());
+        let sportRecord = doc.data();
+        
+        // Convert Firestore timestamp objects to JavaScript Date objects
+        sportRecord.createAt = new Date(sportRecord.createAt._seconds * 1000 + sportRecord.createAt._nanoseconds / 1000000);
+        sportRecord.sportStartTime = new Date(sportRecord.sportStartTime._seconds * 1000 + sportRecord.sportStartTime._nanoseconds / 1000000);
+        sportRecord.sportEndTime = new Date(sportRecord.sportEndTime._seconds * 1000 + sportRecord.sportEndTime._nanoseconds / 1000000);
+  
+        // Optionally, convert dates to strings for a more human-readable format
+        // sportRecord.createAt = sportRecord.createAt.toISOString(); // or .toLocaleString() etc.
+        // sportRecord.sportStartTime = sportRecord.sportStartTime.toISOString(); // or .toLocaleString() etc.
+        // sportRecord.sportEndTime = sportRecord.sportEndTime.toISOString(); // or .toLocaleString() etc.
+  
+        sportHistoryData.push(sportRecord);
       });
   
       res.json(sportHistoryData);
@@ -227,7 +259,19 @@ app.get('/sport_30d/:userId', async (req, res) => {
   
       const sportHistoryData = [];
       snapshot.forEach(doc => {
-        sportHistoryData.push(doc.data());
+        let sportRecord = doc.data();
+        
+        // Convert Firestore timestamp objects to JavaScript Date objects
+        sportRecord.createAt = new Date(sportRecord.createAt._seconds * 1000 + sportRecord.createAt._nanoseconds / 1000000);
+        sportRecord.sportStartTime = new Date(sportRecord.sportStartTime._seconds * 1000 + sportRecord.sportStartTime._nanoseconds / 1000000);
+        sportRecord.sportEndTime = new Date(sportRecord.sportEndTime._seconds * 1000 + sportRecord.sportEndTime._nanoseconds / 1000000);
+  
+        // Optionally, convert dates to strings for a more human-readable format
+        // sportRecord.createAt = sportRecord.createAt.toISOString(); // or .toLocaleString() etc.
+        // sportRecord.sportStartTime = sportRecord.sportStartTime.toISOString(); // or .toLocaleString() etc.
+        // sportRecord.sportEndTime = sportRecord.sportEndTime.toISOString(); // or .toLocaleString() etc.
+  
+        sportHistoryData.push(sportRecord);
       });
   
       res.json(sportHistoryData);
@@ -250,6 +294,18 @@ app.get('/latest-sport-reading/:userId', async (req, res) => {
       }
   
       const latestSportReading = snapshot.docs[0].data();
+
+       // Convert Firestore timestamp objects to JavaScript Date objects
+    latestSportReading.createAt = new Date(latestSportReading.createAt._seconds * 1000 + latestSportReading.createAt._nanoseconds / 1000000);
+    latestSportReading.sportStartTime = new Date(latestSportReading.sportStartTime._seconds * 1000 + latestSportReading.sportStartTime._nanoseconds / 1000000);
+    latestSportReading.sportEndTime = new Date(latestSportReading.sportEndTime._seconds * 1000 + latestSportReading.sportEndTime._nanoseconds / 1000000);
+
+    // Optionally, convert dates to strings for a more human-readable format
+    // latestSportReading.createAt = latestSportReading.createAt.toISOString(); // or .toLocaleString() etc.
+    // latestSportReading.sportStartTime = latestSportReading.sportStartTime.toISOString(); // or .toLocaleString() etc.
+    // latestSportReading.sportEndTime = latestSportReading.sportEndTime.toISOString(); // or .toLocaleString() etc.
+
+    
       res.json(latestSportReading);
     } catch (error) {
       console.error('Error retrieving the latest sport reading:', error);
