@@ -14,10 +14,12 @@ admin.initializeApp({
 const db = admin.firestore();
 
 // Endpoint per /patient-info
-app.get('/patient-info', async (req, res) => {
+app.get('/patient-info/:userId', async (req, res) => {
   try {
+    const userId = req.params.userId; // Ottieni l'ID utente dal parametro URL
+
     // Puoi aggiungere autenticazione e controlli di sicurezza qui
-    const documentSnapshot = await db.collection('User').doc('9W1NRjouPLWoPQTVHbYg0FMn3102').get();
+    const documentSnapshot = await db.collection('User').doc(userId).get();
     
     if (documentSnapshot.exists) {
       // Se il documento esiste, invia i dati al client
@@ -34,9 +36,9 @@ app.get('/patient-info', async (req, res) => {
 });
 
 // Endpoint per /history_7d
-app.get('/history_7d', async (req, res) => {
-    try {
-      const userId = '9W1NRjouPLWoPQTVHbYg0FMn3102'; // ID utente statico, puoi renderlo dinamico
+app.get('/history_7d/:userId', async (req, res) => {
+  try {
+      const userId = req.params.userId; // Ottieni l'ID utente dal parametro URL
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7); // Imposta la data a 7 giorni fa
   
@@ -61,9 +63,9 @@ app.get('/history_7d', async (req, res) => {
   });
   
   // Endpoint per /history_30d
-app.get('/history_30d', async (req, res) => {
+app.get('/history_30d/:userId', async (req, res) => {
     try {
-      const userId = '9W1NRjouPLWoPQTVHbYg0FMn3102'; // ID utente statico, puoi renderlo dinamico
+      const userId = req.params.userId; // Ottieni l'ID utente dal parametro URL
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30); // Imposta la data a 30 giorni fa
   
@@ -88,9 +90,9 @@ app.get('/history_30d', async (req, res) => {
   });
   
   // Endpoint per ottenere l'ultima lettura dell'orologio
-app.get('/latest-reading', async (req, res) => {
+app.get('/latest-reading/:userId', async (req, res) => {
     try {
-      const userId = '9W1NRjouPLWoPQTVHbYg0FMn3102'; // ID utente statico, puoi renderlo dinamico
+      const userId = req.params.userId; // Ottieni l'ID utente dal parametro URL
       const historyRef = db.collection('User').doc(userId).collection('History');
       const snapshot = await historyRef.orderBy('date', 'desc').limit(1).get();
   
@@ -108,9 +110,9 @@ app.get('/latest-reading', async (req, res) => {
   });
   
  // Endpoint per /sleep_7d
-app.get('/sleep_7d', async (req, res) => {
+app.get('/sleep_7d/:userId', async (req, res) => {
     try {
-      const userId = '9W1NRjouPLWoPQTVHbYg0FMn3102'; // ID utente statico, può essere reso dinamico
+      const userId = req.params.userId; // Ottieni l'ID utente dal parametro URL
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7); // Imposta la data a 7 giorni fa
   
@@ -135,9 +137,9 @@ app.get('/sleep_7d', async (req, res) => {
   });
   
   // Endpoint per /sleep_30d
-app.get('/sleep_30d', async (req, res) => {
+app.get('/sleep_30d/:userId', async (req, res) => {
     try {
-      const userId = '9W1NRjouPLWoPQTVHbYg0FMn3102'; // ID utente statico, può essere reso dinamico
+      const userId = req.params.userId; // Ottieni l'ID utente dal parametro URL
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30); // Imposta la data a 30 giorni fa
   
@@ -162,9 +164,9 @@ app.get('/sleep_30d', async (req, res) => {
   });
 
   // Endpoint per ottenere l'ultima lettura del sonno
-app.get('/latest-sleep-reading', async (req, res) => {
+app.get('/latest-sleep-reading/:userId', async (req, res) => {
     try {
-      const userId = '9W1NRjouPLWoPQTVHbYg0FMn3102'; // ID utente statico, puoi renderlo dinamico
+      const userId = req.params.userId; // Ottieni l'ID utente dal parametro URL
       const sleepHistoryRef = db.collection('User').doc(userId).collection('SleepHistory');
       const snapshot = await sleepHistoryRef.orderBy('dateSleepTotal', 'desc').limit(1).get();
   
@@ -182,9 +184,9 @@ app.get('/latest-sleep-reading', async (req, res) => {
   });
   
 // Endpoint per /sport_7d
-app.get('/sport_7d', async (req, res) => {
+app.get('/sport_7d/:userId', async (req, res) => {
     try {
-      const userId = '9W1NRjouPLWoPQTVHbYg0FMn3102'; // ID utente statico, può essere reso dinamico
+      const userId = req.params.userId; // Ottieni l'ID utente dal parametro URL
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7); // Imposta la data a 7 giorni fa
   
@@ -209,9 +211,9 @@ app.get('/sport_7d', async (req, res) => {
   });
   
   // Endpoint per /sport_30d
-app.get('/sport_30d', async (req, res) => {
+app.get('/sport_30d/:userId', async (req, res) => {
     try {
-      const userId = '9W1NRjouPLWoPQTVHbYg0FMn3102'; // ID utente statico, può essere reso dinamico
+      const userId = req.params.userId; // Ottieni l'ID utente dal parametro URL
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30); // Imposta la data a 30 giorni fa
   
@@ -236,9 +238,9 @@ app.get('/sport_30d', async (req, res) => {
   });
 
   // Endpoint per ottenere l'ultima lettura dello sport
-app.get('/latest-sport-reading', async (req, res) => {
+app.get('/latest-sport-reading/:userId', async (req, res) => {
     try {
-      const userId = '9W1NRjouPLWoPQTVHbYg0FMn3102'; // ID utente statico, puoi renderlo dinamico
+      const userId = req.params.userId; // Ottieni l'ID utente dal parametro URL
       const sportHistoryRef = db.collection('User').doc(userId).collection('SportHistory');
       const snapshot = await sportHistoryRef.orderBy('createAt', 'desc').limit(1).get();
   
@@ -256,9 +258,9 @@ app.get('/latest-sport-reading', async (req, res) => {
   });
   
   // Endpoint per /setting
-app.get('/setting', async (req, res) => {
+app.get('/setting/:userId', async (req, res) => {
     try {
-      const userId = '9W1NRjouPLWoPQTVHbYg0FMn3102'; // ID utente statico, puoi renderlo dinamico
+      const userId = req.params.userId; // Ottieni l'ID utente dal parametro URL
   
       const settingsRef = db.collection('User').doc(userId).collection('Bracelet').doc('setting');
       const snapshot = await settingsRef.get();
